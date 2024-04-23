@@ -358,12 +358,21 @@ ConfigureSidebandSignals (
                   (VOID **)&mPmux
                   );
   if (EFI_ERROR (Status) || (mPmux == NULL)) {
-    DEBUG ((
+    if (mPmux == NULL) {
+      DEBUG ((
       DEBUG_ERROR,
-      "%a: Couldn't get gNVIDIAPinMuxProtocolGuid Handle: %r\n",
+      "Xiaoyu'debug: nPmux is NULL\n"
+      ));
+    }
+    else if (EFI_ERROR (Status))
+    {
+      DEBUG ((
+      DEBUG_ERROR,
+      "Xiaoyu'debug: %a: Couldn't get gNVIDIAPinMuxProtocolGuid Handle: %r\n",
       __FUNCTION__,
       Status
       ));
+    }
     return;
   }
 
@@ -1938,8 +1947,10 @@ DeviceDiscoveryNotify (
 
       ChipID = TegraGetChipID ();
       if (ChipID == T234_CHIP_ID) {
+        DEBUG (DEBUG_INFO, "Xiaoyu debug: ChipID = T234_CHIP_ID\n");
         Private->IsT234 = TRUE;
       } else if (ChipID == T194_CHIP_ID) {
+        DEBUG (DEBUG_INFO, "Xiaoyu debug: ChipID = T194_CHIP_ID\n");
         Private->IsT194 = TRUE;
       }
 
